@@ -23,14 +23,20 @@ function calculateFib(n) {
 			fibArr.push(1);
 			continue;
 		}
-		fibArr.push(Number(fibArr[len-1]) + Number(fibArr[len - 2]));
+		fibArr.push(Number(fibArr[len - 1]) + Number(fibArr[len - 2]));
 	}
 	return fibArr;
 }
 
-function recursiveFib(n) {
+function recursiveFib(n, last = 0, prev = 0) {
 	n = Number(n);
-	return n + n;
+	const curr = last + prev || 1;
+
+	if (--n === 0) {
+		return curr;
+	}
+
+	return [curr, recursiveFib(n, curr, last)];
 }
 
 export { setupFibonacci };
