@@ -2,6 +2,7 @@ import { setupInput } from "./input";
 
 function setupFibonacci(element) {
 	const wrapper = document.createElement("div");
+    wrapper.className = "calcWrapper"
 
 	wrapper.appendChild(
 		setupInput(calculateFib, "Non-recursive Fibonacci", "normalFib")

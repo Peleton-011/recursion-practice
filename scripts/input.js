@@ -1,5 +1,6 @@
 export function setupInput(func, name, id) {
 	const wrapper = document.createElement("div");
+    wrapper.className = "inputWrapper"
 	const label = document.createElement("label");
 
 	label.textContent = name;

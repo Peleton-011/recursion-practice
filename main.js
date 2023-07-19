@@ -1,5 +1,5 @@
 import "./style.css";
-import { setupFibonacci } from "./fibonacci";
+import { setupFibonacci } from "./scripts/fibonacci";
 
 const appElem = document.querySelector("#app");
 
