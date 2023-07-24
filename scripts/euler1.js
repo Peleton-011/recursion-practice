@@ -10,7 +10,15 @@ function setupEuler1() {
 }
 
 function sumOf3or5Multiples(n) {
-	return;
+	return sumOfXMultiples(n, [3, 5]);
+}
+
+function sumOfXMultiples(n, x) {
+	let sum = 0;
+	for (let i = 0; i < n; i++) {
+		if (x.some((val) => i % val === 0)) sum += i;
+	}
+	return sum;
 }
 
 export { setupEuler1 };
