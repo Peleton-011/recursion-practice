@@ -19,7 +19,7 @@ export function setupInput(func, name, id) {
 	submit.onclick = (e) => {
 		const wrapperElem = e.target.parentElement;
 		const inputVal = wrapperElem.querySelector("input").value;
-		wrapperElem.querySelector(".output").textContent = func(inputVal);
+		wrapperElem.querySelector(".output").textContent = String(func(inputVal));
 	};
 
 	wrapper.appendChild(label);

@@ -1,6 +1,6 @@
 import { setupInput } from "./input";
 
-function setupFibonacci(element) {
+function setupFibonacci() {
 	const wrapper = document.createElement("div");
 	wrapper.className = "calcWrapper";
 

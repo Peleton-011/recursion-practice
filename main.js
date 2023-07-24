@@ -1,6 +1,8 @@
 import "./style.css";
 import { setupFibonacci } from "./scripts/fibonacci";
+import { setupMergeSort } from "./scripts/merge-sort";
 
 const appElem = document.querySelector("#app");
 
-appElem.appendChild(setupFibonacci(document.querySelector("#counter")));
+appElem.appendChild(setupFibonacci());
+appElem.appendChild(setupMergeSort());
