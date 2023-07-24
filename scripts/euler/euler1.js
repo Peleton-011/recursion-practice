@@ -1,4 +1,4 @@
-import { setupInput } from "./input";
+import { setupInput } from "../input";
 
 function setupEuler1() {
 	const wrapper = document.createElement("div");
