@@ -5,18 +5,33 @@ function setupEuler4() {
 	wrapper.className = "calcWrapper";
 
 	wrapper.appendChild(
-		setupInput(getLargestPalindromeOfXLen, "Euler 4", "euler4")
+		setupInput(getNextPalindromeUnderX, "Euler 4", "euler4")
 	);
 
 	return wrapper;
 }
 
 function getLargestPalindromeOfXLen(n) {
-	return primesToFactors(
-		[137, 73, 11, 7],
-		3
-	).value;
+	return primesToFactors([7, 11, 73, 137], 3).value;
 	return calculateTraversal([137, 73, 11, 7], [true, false, false, true]);
+}
+
+function getNextPalindromeUnderX(n) {
+	const len = n.length;
+	const hasCenter = len % 2 !== 0;
+	const center = hasCenter ? n[Math.floor(len / 2)] : null;
+	const curr = [...n.slice(0, Math.floor(len / 2)).split("")];
+	if (hasCenter) curr.push(center);
+
+	return makePalindrome(curr, hasCenter);
+}
+
+function makePalindrome(arr, hasCenter) {
+	const rev = arr.toReversed();
+	if (hasCenter) {
+        rev.shift()
+	}
+	return Number([...arr, ...rev].join(""));
 }
 
 function primesToFactors(arr, maxlen) {
@@ -81,7 +96,8 @@ function primesToFactors(arr, maxlen) {
 	console.log(arr);
 	console.log(currFactors);
 
-    if(path.length !== arr.length) return { success: false, value: "Error, not possible" };
+	if (path.length !== arr.length)
+		return { success: false, value: "Error, not possible" };
 	return { success: true, value: calculateTraversal(arr.reverse(), path) };
 }
 
