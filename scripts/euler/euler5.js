@@ -1,10 +1,10 @@
 import { setupInput } from "../input";
 
-function setupEuler3() {
+function setupEuler5() {
 	const wrapper = document.createElement("div");
 	wrapper.className = "calcWrapper";
 
-	wrapper.appendChild(setupInput(largestPrimeFactor, "Euler 3", "euler3"));
+	wrapper.appendChild(setupInput(largestPrimeFactor, "Euler 5", "euler5"));
 
 	return wrapper;
 }
@@ -39,4 +39,4 @@ function getNextPrime(curr) {
     return last
 }
 
-export { setupEuler3 };
+export { setupEuler5 };
