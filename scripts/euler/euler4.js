@@ -21,15 +21,32 @@ function getNextPalindromeUnderX(n) {
 	const hasCenter = len % 2 !== 0;
 	const center = hasCenter ? n[Math.floor(len / 2)] : null;
 	const curr = [...n.slice(0, Math.floor(len / 2)).split("")];
+
+	curr.map((val, i) => (curr[i] = Number(val)));
+
 	if (hasCenter) curr.push(center);
 
-	return makePalindrome(curr, hasCenter);
+	let currPal = n;
+
+	while (currPal >= n) {
+		currPal = makePalindrome(decreaseArr(curr), hasCenter);
+	}
+
+	return currPal;
+}
+
+function decreaseArr(arr) {
+	arr.reverse();
+	const i = arr.findIndex((val) => val != 0);
+	arr[i]--;
+	arr.reverse();
+	return arr;
 }
 
 function makePalindrome(arr, hasCenter) {
 	const rev = arr.toReversed();
 	if (hasCenter) {
-        rev.shift()
+		rev.shift();
 	}
 	return Number([...arr, ...rev].join(""));
 }
