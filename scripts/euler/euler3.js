@@ -13,8 +13,7 @@ function largestPrimeFactor(n) {
 	const primes = [];
 	const primeFactors = [];
 
-    console.log(getNextPrime(primes))
-	while (primes[primes.length - 1] < n) {
+	while (primes[primes.length - 1] < n || primes == 0) {
 		primes.push(getNextPrime(primes));
 
 		if (n % primes[primes.length - 1] === 0) {
