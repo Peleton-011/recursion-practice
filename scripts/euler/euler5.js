@@ -19,7 +19,15 @@ function smallestMultipleUnder(n) {
 		if (primes.indexOf(i) >= 0) {
 			continue;
 		}
+		factors.addFactorList(getFactorList(i, primes));
 	}
+
+    console.log(factors.list)
+
+	return factors.list.reduce(
+		(acc, factor) => acc * factor.num ** factor.exp,
+		1
+	);
 }
 
 class FactorList {
@@ -27,6 +35,27 @@ class FactorList {
 
 	addFactor(prime, exponent) {
 		this.list.push(new Factor(prime, exponent));
+	}
+
+	addFactorList(newList) {
+        console.log(newList)
+		const oldPrimes = this.list.map((factor) => factor.num);
+		const newPrimes = newList.list.map((factor) => factor.num);
+
+		newPrimes.forEach((p, newIndex) => {
+			const index = oldPrimes.indexOf(p);
+			if (index < 0) {
+				this.addFactor(
+					newList.list[newIndex].num,
+					newList.list[newIndex].exp
+				);
+				return;
+			}
+			this.list[index].exp =
+				this.list[index].exp > newList.list[newIndex].exp
+					? this.list[index].exp
+					: newList.list[newIndex].exp;
+		});
 	}
 
 	product() {
