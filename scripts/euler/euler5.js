@@ -16,10 +16,9 @@ function smallestMultipleUnder(n) {
 	primes.forEach((p) => factors.addFactor(p, 1));
 
 	for (let i = 2; i < Number(n) + 1; i++) {
-        if (primes.indexOf(i) >= 0) {
-            continue;
+		if (primes.indexOf(i) >= 0) {
+			continue;
 		}
-        
 	}
 }
 
@@ -47,6 +46,21 @@ class Factor {
 	setExponent(n) {
 		this.exp = n;
 	}
+}
+
+function getFactorList(n, primes) {
+	const factors = new FactorList();
+
+	primes.forEach((p) => {
+		let exp = 0;
+		while (n % p === 0) {
+			n /= p;
+			exp++;
+		}
+		if (exp > 0) factors.addFactor(p, exp);
+	});
+
+	return factors;
 }
 
 function primeNumbersUnder(n) {
