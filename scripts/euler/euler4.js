@@ -5,18 +5,57 @@ function setupEuler4() {
 	wrapper.className = "calcWrapper";
 
 	wrapper.appendChild(
-		setupInput(getNextPalindromeUnderX, "Euler 4", "euler4")
+		setupInput(getLargestPalindromeOfXLen, "Euler 4", "euler4")
 	);
 
 	return wrapper;
 }
 
 function getLargestPalindromeOfXLen(n) {
-	return primesToFactors([7, 11, 73, 137], 3).value;
-	return calculateTraversal([137, 73, 11, 7], [true, false, false, true]);
+	n = Number(n);
+	let currPal = ((len) => {
+		let maxNum = "";
+
+		for (let i = 0; i < len; i++) {
+			maxNum += "9";
+		}
+		console.log("max: ", String(Number(maxNum) ** 2));
+		return String(Number(maxNum) ** 2);
+	})(n);
+
+	let primes = primeNumbersUnder(
+		((len) => {
+			let maxNum = "";
+
+			for (let i = 0; i < len; i++) {
+				maxNum += "9";
+			}
+			return String(Number(maxNum));
+		})(n)
+	);
+
+	let currResult = { success: false };
+
+	while (!currResult.success) {
+		console.log("trying");
+		currPal = getNextPalindromeUnderX(Number(currPal));
+		if (currPal < 1) {
+			return "error";
+		}
+		console.log(currPal);
+		console.log("trying factors");
+		const factors = primesToFactors(currPal, primes);
+		console.log(factors);
+		if (!factors) continue;
+		currResult = checkFinalFactors(factors, n);
+	}
+
+	return currResult.value;
 }
 
 function getNextPalindromeUnderX(n) {
+	console.log("trying ", n);
+	n = String(n);
 	const len = n.length;
 	const hasCenter = len % 2 !== 0;
 	const center = hasCenter ? n[Math.floor(len / 2)] : null;
@@ -26,9 +65,9 @@ function getNextPalindromeUnderX(n) {
 
 	if (hasCenter) curr.push(center);
 
-	let currPal = n;
+	let currPal = makePalindrome(curr, hasCenter);
 
-	while (currPal >= n) {
+	while (currPal >= n && currPal > 0) {
 		currPal = makePalindrome(decreaseArr(curr), hasCenter);
 	}
 
@@ -36,11 +75,11 @@ function getNextPalindromeUnderX(n) {
 }
 
 function decreaseArr(arr) {
-	arr.reverse();
-	const i = arr.findIndex((val) => val != 0);
-	arr[i]--;
-	arr.reverse();
-	return arr;
+	// arr.reverse();
+	// const i = arr.findIndex((val) => val != 0);
+	// arr[i]--;
+	// arr.reverse();
+	return String(Number(arr.join("")) - 1).split("");
 }
 
 function makePalindrome(arr, hasCenter) {
@@ -51,13 +90,39 @@ function makePalindrome(arr, hasCenter) {
 	return Number([...arr, ...rev].join(""));
 }
 
-function primesToFactors(arr, maxlen) {
+function primesToFactors(pal, primes) {
+	const factors = [];
+	const OGpal = pal;
+
+	let i = 0;
+	while (pal > 1 && i < primes.length) {
+		if (pal % primes[i] !== 0) {
+			i++;
+			continue;
+		}
+
+		factors.push(primes[i]);
+		pal /= primes[i];
+	}
+
+	if (
+		factors.reduce(
+			(accumulator, currentValue) => accumulator * currentValue,
+			1
+		) === OGpal
+	) {
+		return factors;
+	}
+	return 0;
+}
+
+function checkFinalFactors(arr, maxlen) {
 	const path = [true];
 	const factors = arr.toReversed();
 	const currFactors = [factors[0], 1];
 	factors.shift();
 	console.log(arr);
-
+	console.log("maxlen", maxlen);
 	const check = (n) => {
 		console.log("Checking " + (n === 0 ? "left" : "rigth"));
 		const productStr = String(currFactors[n] * factors[0]);
@@ -68,7 +133,13 @@ function primesToFactors(arr, maxlen) {
 			" is ",
 			currFactors[n] * factors[0]
 		);
-		console.log(productStr.length < maxlen + 1 ? "valid" : "too long");
+		console.log(
+			productStr.length < maxlen + 1 ? "valid" : "too long",
+			" ",
+			productStr.length,
+			" > ",
+			maxlen
+		);
 		return productStr.length < maxlen + 1;
 	};
 	const turn = (n, isTemp) => {
@@ -128,21 +199,15 @@ function calculateTraversal(arr, choices) {
 	return [a, b];
 }
 
-function primeFactors(n) {
-	const primes = [];
-	const primeFactors = [];
-
-	while (primes[primes.length - 1] < n || primes == 0) {
-		primes.push(getNextPrime(primes));
-
-		while (n % primes[primes.length - 1] === 0) {
-			n /= primes[primes.length - 1];
-
-			primeFactors.push(primes[primes.length - 1]);
-		}
+function primeNumbersUnder(n) {
+	const primeList = [2];
+	console.log(n);
+	while (primeList[primeList.length - 1] <= n) {
+		// console.log(primeList[primeList.length - 1])
+		primeList.push(getNextPrime(primeList));
 	}
-
-	return primeFactors;
+	primeList.pop();
+	return primeList;
 }
 
 function getNextPrime(curr) {
